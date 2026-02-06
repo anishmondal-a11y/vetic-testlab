@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Excel → JS Converter</title>
+
+<style>
+body{
+font-family:system-ui;
+background:#f4f6fb;
+padding:40px;
+max-width:900px;
+margin:auto;
+}
+
+textarea{
+width:100%;
+height:240px;
+padding:12px;
+}
+
+button{
+padding:12px 18px;
+background:#E85D75;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin-top:10px;
+}
+
+pre{
+background:white;
+padding:20px;
+border-radius:12px;
+overflow:auto;
+}
+</style>
+</head>
+
+<body>
+
+<h2>📊 Excel → JavaScript Converter</h2>
+
+<p>Paste tab-separated data from Excel:</p>
+
+<textarea id="input"></textarea>
+
+<button onclick="convert()">Convert</button>
+
+<h3>Output:</h3>
+<pre id="output"></pre>
+
+<script>
+
+function convert(){
+
+const rows=document.getElementById("input")
+.value.trim().split("\n");
+
+let arr=[];
+
+rows.forEach(r=>{
+const c=r.split("\t");
+
+arr.push({
+name:c[0],
+city:c[1],
+display:c[2].toUpperCase()=="TRUE",
+mrp:Number(c[3])
+});
+});
+
+document.getElementById("output")
+.textContent="const labTestData = "+JSON.stringify(arr,null,2);
+
+navigator.clipboard.writeText(
+"const labTestData = "+JSON.stringify(arr,null,2)
+);
+
+alert("Copied to clipboard!");
+
+}
+
+</script>
+
+</body>
+</html>
